@@ -1,0 +1,11 @@
+BenchmarkHookr
+=================
+
+Allows you to hook into your rails/ruby code to monitor how long it took 
+to execute a certain block or by what time this Line of code was reached.
+
+The final report shows Timestamp, Runtime, Percentage of time in current block, Percentage
+of time all over 
+
+
+Copyright (c) 2008 Tobias Bielohlawek, released under the MIT license
