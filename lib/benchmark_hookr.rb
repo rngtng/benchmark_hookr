@@ -43,7 +43,7 @@ module BenchmarkHookr
         report[:percentage]     = report[:runtime] * 100 / runtime
         report[:percentage_all] = report[:runtime] * 100 / @report.first[:runtime] if @report.first[:runtime] && @report.first[:runtime] > 0 
         report[:pointtime]      = report[:time] - @report.first[:time]
-        summerize( report[:block], report[:time], finished) if report[:block].any?
+        summerize( report[:block], report[:time], finished) unless report[:block].blank?
         finished = report[:time]
       end  
     end 
@@ -54,10 +54,11 @@ module BenchmarkHookr
       log( "|--- Total: %10.6f seconds --------------------------------------------" % @report.first[:runtime]  )
     end
       
-    def print( reports, level = 0)                 
+    def print( reports, level = 0)  
+      return unless reports               
       reports.each do |report|
         log( "#{' '*level*2}|- %-#{35-(2*level)}s %10.6f | %10.6f | %5.2f%% | %5.2f%%" % [ report[:msg], report[:pointtime], report[:runtime], report[:percentage], report[:percentage_all] ] )
-        print( report[:block], level + 1) if report[:block].any?
+        print( report[:block], level + 1) unless report[:block].blank?
       end         
     end
 

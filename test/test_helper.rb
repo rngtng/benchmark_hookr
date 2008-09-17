@@ -1,11 +1,10 @@
 require 'test/unit'
-require 'benchmark'
 require 'rubygems'
 require 'active_support'
 $LOAD_PATH << File.dirname(__FILE__) + '/../lib/'
 
-module BenchmarkForRails
-
+module BenchmarkHookr
+      
   module SomeModule
     def foo; 'foo' end
     def self.bar; 'bar' end
