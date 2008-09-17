@@ -9,14 +9,16 @@ module BenchmarkHookr
     end
 
     def hook( msg = "Hook", &block)
-      @current_report << { :msg => msg, :time => Time.now, :block => []}
+      @current_report << hook_item( msg )
 
       if block
         last_report = @current_report
-        @current_report = @current_report.last[:block]
+        @current_report = [] 
+        hook( "BEGIN #{msg}" )
         block.call
-        @current_report= last_report
-        @current_report << { :msg => "AFTER #{msg}", :time => Time.now, :block => []}
+        last_report.last[:block] = @current_report
+        @current_report = last_report
+        hook( "AFTER #{msg}" )        
       end    
     end  
 
@@ -29,6 +31,10 @@ module BenchmarkHookr
       @report = []
       @current_report = @report
     end  
+      
+    def hook_item( msg )
+      { :msg => msg, :time => Time.now}
+    end    
       
     def summerize( reports, started, finished)
       runtime = finished - started 
