@@ -7,14 +7,14 @@ the slow parts in your code.
 This plugin allows you to hook into your rails/ruby code to monitor how long it took 
 to execute a certain block or by what time this Line of code was reached.
 
-just put hook( [message]) anywhere in your code to create a timemark or use the block version
-to get the runtime of the whol block
+just put hook( [message]) anywhere in your code to create a time mark or use the block version
+to get the runtime of the whole block
 
 hook( "my block") {
   block to execute
 }
 
-The final report shows Timestamp, Runtime, Percentage of time in current block, Percentage
+The final report shows timemark, runtime, percentage of time in current block, percentage
 of time all over 
 
-Copyright (c) 2008 Tobias Bielohlawek, released under the MIT license
+by Tobias Bielohlawek 2008, released under the MIT license
