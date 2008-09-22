@@ -1,9 +1,10 @@
 module BenchmarkHookr
   module Trackr
     class << self     
+                  
       def start(&block)
         init
-        to_return = block.call        
+        to_return = block ? block.call : true
         print_report
         to_return
       end
@@ -39,6 +40,7 @@ module BenchmarkHookr
       end    
 
       def print_report
+        @longest_name = ""
         summerize( @report, @report.first[:time], @report.last[:time] )
         log( "\n\e[1m|--- BenchmarkHookr --------------------   Time   |   All% |  Runtimes (Block%) ---------------------\e[0m" )
         print( @report )      
@@ -52,6 +54,7 @@ module BenchmarkHookr
           report[:percentage]     = report[:runtime] * 100 / runtime
           report[:percentage_all] = report[:runtime] * 100 / (@report.last[:time]-@report.first[:time])
           report[:pointtime]      = report[:time] - @report.first[:time]
+          @longest_name = report[:msg] if report[:msg].size > @longest_name.size
           summerize( report[:block], report[:time], finished) if report[:block]
           finished = report[:time]
         end  
@@ -72,8 +75,9 @@ module BenchmarkHookr
        "#{f_t(report[:runtime])} (#{f_p(report[:percentage])})"
       end
       
-      def f_s( string, level )        
-        "#{' '*(level*3)}|- %-#{35-(3*level)}s" % string
+      def f_s( string, level )
+        size = @longest_name.size        
+        "#{' '*(level*3)}|- %-#{size-(3*level)}s" % string
       end
       
       def f_t( number )

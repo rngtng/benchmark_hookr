@@ -1,7 +1,5 @@
 require File.dirname(__FILE__) + '/test_helper'
-require 'benchmark_hookr'
-
-
+require 'benchmark_hookr/trackr'
 
 module BenchmarkHookr
   class << self
@@ -18,14 +16,14 @@ class BenchmarkHookrTest < Test::Unit::TestCase
 
   def test_start
     assert_nothing_raised do
-      BenchmarkHookr.start
+      BenchmarkHookr::Trackr.start
     end
   end
   
   def test_hook
     assert_nothing_raised do
-      BenchmarkHookr.start {
-        BenchmarkHookr.hook( "hook 1")      
+      BenchmarkHookr::Trackr.start {
+        BenchmarkHookr::Trackr.hook( "hook 1")      
       }
     end
   end
@@ -33,8 +31,8 @@ class BenchmarkHookrTest < Test::Unit::TestCase
   def test_hook_with_block
     assert_nothing_raised do
       block_executed = nil
-      BenchmarkHookr.start {
-        BenchmarkHookr.hook( "hook with block") {
+      BenchmarkHookr::Trackr.start {
+        BenchmarkHookr::Trackr.hook( "hook with block") {
           block_executed = true
         }    
       }
